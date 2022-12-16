@@ -10,5 +10,8 @@ module.exports = withMT({
   theme: {
     extend: {},
   },
+  variants: {
+    extend: {},
+  },
   plugins: [],
 })
