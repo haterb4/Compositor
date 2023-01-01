@@ -2,13 +2,13 @@
     @apply h-screen w-full relative overflow-hidden;
 }
 .textWelcome{
-    @apply text-3xl text-white border;
+    @apply text-3xl text-white;
     width: 500px !important;
     text-shadow: 2px 2px 5px black;
   }
 .leftSide{
     @apply h-full relative flex flex-col justify-between items-start py-12 pl-4;
-    width: 60% !important;
+    width: 55% !important;
     background: rgba(15, 100, 246, 0.8);
     z-index: 99;
     border-top-right-radius: 45%;

@@ -2,3 +2,21 @@
     @apply bg-white rounded-lg flex flex-col items-center p-4 h-80 shadow-lg border;
     width: 450px;
 }
+
+.loginField{
+    @apply w-full relative;
+}
+.loginFieldErr{
+    @apply w-full relative;
+    color: red;
+}
+.loginFieldErr > input {
+    border: 1px solid red;
+}
+.loginField > span,
+.loginFieldErr >  span{
+    position: absolute;
+    top: -8px;
+    left: 10px;
+    background: white;
+}
