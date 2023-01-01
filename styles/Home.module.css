@@ -5,7 +5,7 @@
   @apply w-full flex items-center justify-between;
 }
 .textWelcome{
-  @apply text-4xl text-white md:text-2xl;
+  @apply text-4xl text-white;
   text-shadow: 2px 2px 5px black;
   border-block: solid;
 }

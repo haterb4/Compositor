@@ -5,6 +5,12 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
+  const redirect = () => {
+      const currentLink = window.location.href
+      window.location.href = `${currentLink}/login`
+  }
+
   return (
     <div>
       <Head>
@@ -32,7 +38,7 @@ export default function Home() {
               <p className={styles.textIntro}>Module de Compositon <br />de Contenus</p>
             </div>
             <div className={styles.startButton}>
-              <Button className='capitalize'>Commencer</Button>
+              <Button className='capitalize' onClick={ redirect}>Commencer</Button>
             </div>
           </div>
           <div>
