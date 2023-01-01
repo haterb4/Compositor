@@ -1,8 +1,9 @@
 .layoutContainer{
-    @apply h-screen w-full relative;
+    @apply h-screen w-full relative overflow-hidden;
 }
 .textWelcome{
-    @apply text-3xl text-white w-4/5;
+    @apply text-3xl text-white border;
+    width: 500px !important;
     text-shadow: 2px 2px 5px black;
   }
 .leftSide{
