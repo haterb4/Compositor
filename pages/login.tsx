@@ -5,14 +5,14 @@ import styles from '../styles/Login.module.css'
 
 type ChildProps = {}
 
-const login= () => {
+const Login= () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(false)
   const [emailError, setEmailError] = useState("false")
   const [passwordError, setPasswordlError] = useState("false")
 
-  const Login = () => {
+  const login = () => {
     if (email.length === 0){
         setError(true)
         setEmailError("Email is required")
@@ -67,7 +67,7 @@ const login= () => {
                     {password && <span className='text-xs'>Mot de passe</span>}
                 </div>
                 <div>
-                    <Button className='mt-8' onClick={Login}>Se connecter</Button>
+                    <Button className='mt-8' onClick={login}>Se connecter</Button>
                 </div>
             </div>
         </div>
@@ -75,4 +75,4 @@ const login= () => {
   )
 }
 
-export default login
+export default Login
