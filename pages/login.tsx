@@ -1,7 +1,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@material-tailwind/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AuthLayout from '../layouts/AuthLayout'
 import styles from '../styles/Login.module.css'
 
@@ -32,7 +32,15 @@ const Login= () => {
                 setPasswordlError("Password is too short")
             }
             else{
-                alert('ok')
+                if (email === process.env.NEXT_PUBLIC_DEFAULT_EMAIL && password === process.env.NEXT_PUBLIC_DEFAULT_PASS){
+                    const destination = 'http://localhost:3000/project-manager'
+                    window.location.href = destination
+                }
+                else{
+                    setError(true)
+                    setEmailError("incorrect email address")
+                    setPasswordlError("Incorrect password")
+                }
             }
         }
         else{
@@ -46,6 +54,9 @@ const Login= () => {
     setEmailError("")
     setPasswordlError("")
   }
+  useEffect(() => {
+    resetError()
+  }, [])
   return (
     <AuthLayout title='login Page'>
         <div className={styles.loginForm}>
@@ -66,10 +77,8 @@ const Login= () => {
                         onChange={ e => setPassword(e.target.value)}
                         onClick={resetError}
                     />
-                    {passwordIsVisible
-                        ?<div className={styles.eye}><FontAwesomeIcon icon={faEye} onClick={() => setPasswordIsVisible(!passwordIsVisible)}/></div>
-                        :<div className={styles.eye}><FontAwesomeIcon icon={faEyeSlash} onClick={() => setPasswordIsVisible(!passwordIsVisible)}/></div>
-                    }
+                    {passwordIsVisible && (<div className={styles.eye}><FontAwesomeIcon icon={faEye} onClick={() => setPasswordIsVisible(!passwordIsVisible)}/></div>) }
+                    {!passwordIsVisible && <div className={styles.eye}><FontAwesomeIcon icon={faEyeSlash} onClick={() => setPasswordIsVisible(!passwordIsVisible)}/></div> }
                     {passwordError && (<p className='my-1 text-xs'>{passwordError}</p>)}
                     {password && <span className='text-xs'>Mot de passe</span>}
                 </div>
