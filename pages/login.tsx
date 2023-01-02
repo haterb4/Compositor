@@ -1,3 +1,5 @@
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@material-tailwind/react'
 import React, { useState } from 'react'
 import AuthLayout from '../layouts/AuthLayout'
@@ -11,6 +13,7 @@ const Login= () => {
   const [error, setError] = useState(false)
   const [emailError, setEmailError] = useState("false")
   const [passwordError, setPasswordlError] = useState("false")
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false)
 
   const login = () => {
     if (email.length === 0){
@@ -58,11 +61,15 @@ const Login= () => {
                     {email && <span className='text-xs'>Email</span>}
                 </div>
                 <div className={error?styles.loginFieldErr:styles.loginField}>
-                    <input type="password" name="" id="" placeholder='Mot de passe'
+                    <input type={passwordIsVisible? "text" :"password"} name="" id="" placeholder='Mot de passe'
                         className='w-full h-12 border outline-none px-3'
                         onChange={ e => setPassword(e.target.value)}
                         onClick={resetError}
                     />
+                    {passwordIsVisible
+                        ?<div className={styles.eye}><FontAwesomeIcon icon={faEye} onClick={() => setPasswordIsVisible(!passwordIsVisible)}/></div>
+                        :<div className={styles.eye}><FontAwesomeIcon icon={faEyeSlash} onClick={() => setPasswordIsVisible(!passwordIsVisible)}/></div>
+                    }
                     {passwordError && (<p className='my-1 text-xs'>{passwordError}</p>)}
                     {password && <span className='text-xs'>Mot de passe</span>}
                 </div>

@@ -28,8 +28,8 @@ const AuthLayout = ({title, children}: Props) => {
                     <h1 className={styles.textWelcome}>ECOLE NATIONALE SUPERIEURE POLYTECHNIQUE DE YAOUNDE</h1>
                 </div>
                 <div>
-                    <h1 className='text-6xl uppercase font-extrabold'>XCCM</h1>
-                    <div className='pl-6 leading-8 mt-6 flex items-stretch justify-start'>
+                    <h1 className={styles.xccm}>XCCM</h1>
+                    <div className='pl-6 leading-8 flex items-stretch justify-start'>
                     <div className='h-ful w-1 bg-gradient-to-b from-amber-900 via-amber-700 to-amber-500'></div>
                     <p className={styles.textIntro}>Module de Compositon <br />de Contenus</p>
                     </div>

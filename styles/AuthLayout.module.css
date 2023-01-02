@@ -5,7 +5,7 @@
     @apply text-3xl text-white;
     width: 500px !important;
     text-shadow: 2px 2px 5px black;
-  }
+}
 .leftSide{
     @apply h-full relative flex flex-col justify-between items-start py-12 pl-4;
     width: 55% !important;
@@ -13,6 +13,9 @@
     z-index: 99;
     border-top-right-radius: 45%;
     border-bottom-right-radius: 45%;
+}
+.xccm{
+    @apply text-6xl uppercase font-extrabold mb-6;
 }
 .textIntro{
     @apply text-4xl pl-2 text-black;
@@ -126,7 +129,27 @@
     animation: UpDown 1s infinite  alternate;
   }
 
-  /* keyframes*/
+/*responsive*/
+
+@media screen and (max-width: 818px) {
+    .textWelcome{
+        @apply text-xl text-white;
+    }
+    .textIntro{
+        @apply text-2xl pl-2 text-black;
+    }
+    .xccm{
+        @apply text-5xl uppercase font-extrabold mb-2;
+    }
+}
+@media screen and (max-width: 400px){
+    .textWelcome{
+        @apply text-base text-white;
+        width: 80% !important;
+    }
+}
+
+/* keyframes*/
 
 @-webkit-keyframes UpDown {
     0% { transform: translateY(0); }

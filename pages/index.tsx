@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@material-tailwind/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -38,7 +39,7 @@ export default function Home() {
               <p className={styles.textIntro}>Module de Compositon <br />de Contenus</p>
             </div>
             <div className={styles.startButton}>
-              <Button className='capitalize' onClick={ redirect}>Commencer</Button>
+              <Button className='capitalize'><Link href='/login' className='w-full'>Se connecter</Link></Button>
             </div>
           </div>
           <div>

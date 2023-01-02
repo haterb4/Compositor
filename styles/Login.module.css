@@ -20,3 +20,16 @@
     left: 10px;
     background: white;
 }
+.eye{
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: 10px;
+    height: 10px;
+}
+
+/*responsive*/
+
+@media screen and (max-width: 818px) {
+
+}
