@@ -3,7 +3,7 @@ import { faFileExcel, faFilePdf, faFileWord, faFolder } from "@fortawesome/free-
 const Projects = [
     {
         name: 'Projet 1',
-        id: '1',
+        id: 'a1',
         fileIcon: faFileWord,
         folderIcon: faFolder,
         ressourcesid: '1',
@@ -23,14 +23,14 @@ const Projects = [
     },
     {
         name: 'Projet 2',
-        id: '1',
+        id: 'a2',
         fileIcon: faFileExcel,
         folderIcon: faFolder,
         ressourcesid: '1',
         exportid: '1',
         configurationsid: '1',
-        fgClass: 'text-green-200',
-        bgClass: 'bg-green-900',
+        fgClass: 'text-green-500',
+        bgClass: 'bg-green-200',
         description: "Description of Project 1",
         createdAt: "05/11/2022",
         sizes: {
@@ -43,14 +43,14 @@ const Projects = [
     },
     {
         name: 'Projet 3',
-        id: '1',
+        id: 'a3',
         fileIcon: faFilePdf,
         folderIcon: faFolder,
         ressourcesid: '1',
         exportid: '1',
         configurationsid: '1',
         fgClass: 'text-red-500',
-        bgClass: 'bg-red-900',
+        bgClass: 'bg-red-200',
         description: "Description of Project 1",
         createdAt: "05/11/2022",
         sizes: {

@@ -3,13 +3,13 @@ import { faFileExcel, faFilePowerpoint, faFileWord, faFolder } from "@fortawesom
 const LocalProjects = [
     {
         name: 'app',
-        id: '1',
+        id: 'b1',
         fileIcon: faFileExcel,
         folderIcon: faFolder,
         ressourcesid: '1',
         exportid: '1',
         configurationsid: '1',
-        fgClass: 'text-green-600',
+        fgClass: 'text-green-500',
         bgClass: 'bg-green-200',
         description: "Description of Project 1",
         createdAt: "05/11/2022",
@@ -23,7 +23,7 @@ const LocalProjects = [
     },
     {
         name: 'app',
-        id: '1',
+        id: 'b2',
         fileIcon: faFileWord,
         folderIcon: faFolder,
         ressourcesid: '1',
@@ -43,14 +43,14 @@ const LocalProjects = [
     },
     {
         name: 'app',
-        id: '1',
+        id: 'b3',
         fileIcon: faFilePowerpoint,
         folderIcon: faFolder,
         ressourcesid: '1',
         exportid: '1',
         configurationsid: '1',
-        fgClass: 'text-orange-900',
-        bgClass: 'bg-orange-400',
+        fgClass: 'text-red-500',
+        bgClass: 'bg-red-200',
         description: "Description of Project 1",
         createdAt: "05/11/2022",
         sizes: {

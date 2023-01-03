@@ -38,6 +38,7 @@ const Manager = () => {
     .then((data) => {
         setProjects(data.composed)
         setLocalProjects(data.local)
+        if (projects) setThisProjects(data.composed[0])
     })
     .catch((e) => console.log(e))
   }
@@ -53,20 +54,20 @@ const Manager = () => {
             <section className='h-full w-96 border-2 rounded-lg p-1'>
                 {projects && 
                 (<div className='mb-1'>
-                    <Accordion title='Mes Compositions' titleColorClass="bg-light-blue-400" items={projects.length}>
+                    <Accordion title='Mes Compositions' titleColorClass="bg-light-blue-200" items={projects.length}>
                         <div>
                             {projects.map((project:ProjectType, index: number) => (
-                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-400" action={() => { chooseProject(index, 'composed') }}>{project.name}</AccordionButton>
+                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-300" action={() => { chooseProject(index, 'composed') }}>{project.name}</AccordionButton>
                             ))}
                         </div>
                     </Accordion>
                 </div>)
                 }
                 {localprojects &&
-                (<Accordion title='Compositions Locales' titleColorClass="bg-light-blue-400" items={localprojects.length}>
+                (<Accordion title='Compositions Locales' titleColorClass="bg-light-blue-200" items={localprojects.length}>
                     <div>
                         {localprojects.map((project:ProjectType, index: number) => (
-                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-400" action={() => { chooseProject(index, 'local') }}>{project.name}</AccordionButton>
+                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-300" action={() => { chooseProject(index, 'local') }}>{project.name}</AccordionButton>
                         ))}
                     </div>
                 </Accordion>)
