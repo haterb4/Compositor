@@ -42,9 +42,6 @@ const Manager = () => {
     })
     .catch((e) => console.log(e))
   }
-  useEffect(() => {
-    getProjects()
-  }, [])
   const chooseProject = (index: number, where: String) => {
     where === 'composed'? setThisProjects(projects[index]): setThisProjects(localprojects[index])
   }
