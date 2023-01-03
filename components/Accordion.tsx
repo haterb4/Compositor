@@ -6,16 +6,17 @@ type Props = {
     children: JSX.Element,
     title: String,
     titleColorClass?: String | undefined
+    items?: number
 }
 
-const Accordion = ({children, title, titleColorClass}: Props) => {
+const Accordion = ({children, title, titleColorClass, items}: Props) => {
   const [opened, setOpened] = useState(false)
   return (
     <div className='w-full'>
         <div className={`flex justify-between items-center w-full h-12 rounded-lg  px-2 cursor-pointer ${titleColorClass? titleColorClass:"bg-light-blue-100"}`}  onClick={() => setOpened(!opened)}>
             <h1 className='flex items-center font-bold'>{title}</h1>
             <div className='flex items-center justify-between w-16'>
-                <span className='h-8 w-8 rounded-full flex justify-center items-center bg-white'>5</span>
+                {items && <span className='h-8 w-8 rounded-full flex justify-center items-center bg-white'>{items}</span>}
                 <span><FontAwesomeIcon icon={opened?faChevronUp:faChevronDown} /></span>
             </div>
         </div>

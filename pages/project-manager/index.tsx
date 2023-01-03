@@ -1,60 +1,86 @@
-import { faFileArchive, faFileAudio, faFileCode, faFileExcel, faFilePdf, faFilePen, faFilePowerpoint, faFileText, faFileUpload, faFileVideo, faFileWord, faFolder, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faFileWord, faFolder, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
 import Accordion from '../../components/Accordion'
 import AccordionButton from '../../components/AccordionButton'
-import Card from '../../components/Card'
+import ProjectGrid from '../../components/ProjectGrid'
 import Search from '../../components/Search'
 import ManagerLayouth from '../../layouts/ManagerLayouth'
+import { ProjectType } from '../../types/project'
+
 
 const Manager = () => {
-  
+  const [projects, setProjects] = useState([])
+  const [localprojects, setLocalProjects] = useState([])
+  const [thisProjects, setThisProjects] = useState<ProjectType >({
+    name: 'app',
+    id: '1',
+    fileIcon: faFileWord,
+    folderIcon: faFolder,
+    ressourcesid: '1',
+    exportid: '1',
+    configurationsid: '1',
+    fgClass: 'text-pink-200',
+    bgClass: 'bg-pink-900',
+    description: "Description of Project 1",
+    createdAt: "05/11/2022",
+    sizes: {
+        file: "5.2MB",
+        configurations: "5.2MB",
+        ressourses: "5.2MB",
+        export: "5.2MB"
+    }
+
+})
+  const getProjects = () => {
+    const data = fetch("/api/projects")
+    .then((res) => res.json())
+    .then((data) => {
+        setProjects(data.composed)
+        setLocalProjects(data.local)
+    })
+    .catch((e) => console.log(e))
+  }
+  useEffect(() => {
+    getProjects()
+  }, [])
+  const chooseProject = (index: number, where: String) => {
+    where === 'composed'? setThisProjects(projects[index]): setThisProjects(localprojects[index])
+  }
   return (
     <ManagerLayouth>
         <div className='w-full h-full flex justify-start items-start pt-4 pl-1 overflow-hidden'>
             <section className='h-full w-96 border-2 rounded-lg p-1'>
-                <div className='mb-1'>
-                    <Accordion title='Mes Compositions' titleColorClass="bg-amber-900">
+                {projects && 
+                (<div className='mb-1'>
+                    <Accordion title='Mes Compositions' titleColorClass="bg-light-blue-400" items={projects.length}>
                         <div>
-                            <AccordionButton icon={faFolder} >Project 1</AccordionButton>
-                            <AccordionButton icon={faFolder} >Project 2</AccordionButton>
-                            <AccordionButton icon={faFolder} >Project 3</AccordionButton>
+                            {projects.map((project:ProjectType, index: number) => (
+                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-400" action={() => { chooseProject(index, 'composed') }}>{project.name}</AccordionButton>
+                            ))}
                         </div>
                     </Accordion>
-                </div>
-                <Accordion title='Compositions Locales' titleColorClass="bg-blue-700">
+                </div>)
+                }
+                {localprojects &&
+                (<Accordion title='Compositions Locales' titleColorClass="bg-light-blue-400" items={localprojects.length}>
                     <div>
-                        <AccordionButton icon={faFolder} >Composition Locale 1</AccordionButton>
-                        <AccordionButton icon={faFolder} >Composition Locale 2</AccordionButton>
-                        <AccordionButton icon={faFolder} >Composition Locale 3</AccordionButton>
+                        {localprojects.map((project:ProjectType, index: number) => (
+                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-400" action={() => { chooseProject(index, 'local') }}>{project.name}</AccordionButton>
+                        ))}
                     </div>
-                </Accordion>
+                </Accordion>)
+                }
             </section>
             <section className='h-full w-full flex flex-col justify-between pl-4 overflow-hidden'>
                 <Search />
                 <div className='w-full h-full p-2 overflow-hidden'>
-                    <div className='h-full w-full border rounded-lg bg-blue-gray-50 p-4 overflow-hidden'>
-                        <div className='h-full grid grid-cols-5 gap-4 overflow-y-scroll relative'>
-                            <Card icon={faFileAudio} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileWord} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileAudio} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileExcel} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFilePowerpoint} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileVideo} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFilePdf} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileCode} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFilePen} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileText} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileArchive} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileUpload} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFolder} id={1} date='05/11/2022' size={5.2} file={false}/>
-                            <Card icon={faFileAudio} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileAudio} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <Card icon={faFileAudio} id={1} date='05/11/2022' size={5.2} file={true}/>
-                            <button className='w-64 h-12 bg-white flex items-center justify-start px-4 fixed bottom-8 right-16 hover:bg-blue-100'>
-                                <span className='text-light-blue-500'><FontAwesomeIcon icon={faPlus} className='fa-2x'/></span>
-                                <p className='capitalize pl-3 font-bold'>nouvelle composition</p>
-                            </button>
-                        </div>
+                    <div className='h-full w-full border rounded-lg bg-blue-gray-50 p-4 overflow-hidden  relative'>
+                        <ProjectGrid project={thisProjects}/>
+                        <button className='w-64 h-12 bg-white flex items-center justify-start px-4 absolute bottom-8 right-16 hover:bg-blue-100'>
+                            <span className='text-light-blue-500'><FontAwesomeIcon icon={faPlus} className='fa-2x'/></span>
+                            <p className='capitalize pl-3 font-bold'>nouvelle composition</p>
+                        </button>
                     </div>
                 </div>
             </section>
