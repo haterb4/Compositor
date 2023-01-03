@@ -7,7 +7,7 @@ export interface ProjectType {
     folderIcon: IconProp,
     ressourcesid: String,
     exportid: String,
-    configurationsid: '1',
+    configurationsid: String,
     fgClass: String,
     bgClass: String,
     description: String,

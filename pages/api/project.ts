@@ -1,17 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Projects from '../../data/projects'
-import LocalProjects from '../../data/localProjects'
+import Project from '../../data/project'
 import { ProjectType } from '../../types/project'
 
 type Data = {
-  project: ProjectType[],
+  project: ProjectType,
 }
 
 export default function handler( req: NextApiRequest, res: NextApiResponse<Data> ) {
     if (req.method === 'GET'){
-        const projects = {
-            project: LocalProjects,
+        const singleProject = {
+            project: Project,
         }
-        return res.status(200).json(projects)
+        return res.status(200).json(singleProject)
     }
 }
