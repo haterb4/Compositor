@@ -33,8 +33,8 @@ const Login= () => {
             }
             else{
                 if (email === process.env.NEXT_PUBLIC_DEFAULT_EMAIL && password === process.env.NEXT_PUBLIC_DEFAULT_PASS){
-                    const destination = 'http://localhost:3000/project-manager'
-                    window.location.href = destination
+                    const destination = window.location.origin
+                    window.location.href = `${destination}/project-manager`
                 }
                 else{
                     setError(true)
