@@ -17,11 +17,11 @@ const AuthLayout = ({title, children}: Props) => {
         <div className={styles.layoutContainer}>
             <div className={styles.leftSide}>
                 <div className='w-full flex items-center justify-start my'>
-                    <div className='mr-4 border-2 h-44 w-44 rounded-full overflow-hidden'>
+                    <div className='mr-4 border-2 h-44 w-44 rounded-full overflow-hidden flex items-center justify-center'>
                         <Image
                         src='/images/LOGO-POLYTECHNIQUE-01-scaled.jpg'
-                        height={100}
-                        width={100}
+                        height={200}
+                        width={200}
                         alt='office scheme'
                         />
                     </div>
