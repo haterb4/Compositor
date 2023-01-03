@@ -5,41 +5,37 @@ import Card from './Card'
 
 
 type Props = {
-    projects: ProjectType[]
+    localProjects: ProjectType[],
+    composedProjects: ProjectType[],
+    action: Function
 }
-const ProjectList = ({projects}: Props) => {
-  const [listprojects, setLisProjects] = useState<ProjectType[] >([{
-    name: 'app',
-    id: '',
-    fileIcon: faFileWord,
-    folderIcon: faFolder,
-    ressourcesid: '',
-    exportid: '',
-    configurationsid: '',
-    fgClass: '',
-    bgClass: '',
-    description: "",
-    createdAt: "",
-    sizes: {
-        file: "",
-        configurations: "",
-        ressourses: "",
-        export: ""
-    }
-  }])
+const ProjectList = ({localProjects, composedProjects, action}: Props) => {
+  const [listprojects, setLisProjects] = useState<ProjectType[] >([])
   useEffect(()=> {
     setLisProjects(listprojects)
   }, [listprojects])  
   return (
     <div className='h-full grid grid-cols-5 overflow-y-scroll'>
-        {projects.map((project, index) => (
+        {composedProjects.map((project, index) => (
             <Card
             key={index}
             icon={project.folderIcon}
             id={project.id} date='05/11/2022'
-            size={project.sizes.export} file={true}
+            size={project.sizes.export} file={false}
             name={project.name} fgClass="text-light-blue-500"
             bgClass="bg-light-blue-100"
+            action={() => action(index, 'composed')}
+          />
+        ))}
+        {localProjects.map((project, index) => (
+            <Card
+            key={index}
+            icon={project.folderIcon}
+            id={project.id} date='05/11/2022'
+            size={project.sizes.export} file={false}
+            name={project.name} fgClass="text-light-blue-500"
+            bgClass="bg-light-blue-100"
+            action={() => action(index, 'local')}
           />
         ))}
     </div>
