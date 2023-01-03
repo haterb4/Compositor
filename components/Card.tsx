@@ -15,11 +15,14 @@ type Props = {
     name: String,
     fgClass?: String,
     bgClass?: String
-    action: Function
+    action?: Function
 
 }
 
 const Card = ({icon, id, date, size, file, name, fgClass, bgClass, action}:Props) => {
+  const perform = () => {
+    if (action) action()
+  }
   return (
     <div className='h-56 w-64 bg-white rounded-lg p-2'>
         <div className={`w-full h-32 ${bgClass? bgClass:'bg-light-blue-100'} rounded-lg flex justify-center items-center ${fgClass? fgClass :'text-blue-300'}`}>
@@ -28,7 +31,7 @@ const Card = ({icon, id, date, size, file, name, fgClass, bgClass, action}:Props
         <div className='h-full w-full pt-2'>
             { file 
               ?<h4 className='font-bold w-full'><Link href={`project-manager/project/${id}`}>{name}</Link></h4> 
-              :<button className='font-bold w-full text-left' onClick={() => { action()}}>{name}</button>
+              :<button className='font-bold w-full text-left' onClick={() => { perform }}>{name}</button>
             }
             <p className='text-gray-500'>{date}</p>
             <p className='text-gray-500'>{size}</p>
