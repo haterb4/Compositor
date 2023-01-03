@@ -6,14 +6,21 @@ type Props = {
     children: JSX.Element,
     title: String,
     titleColorClass?: String | undefined
-    items?: number
+    items?: number,
+    action?: Function | void,
 }
 
-const Accordion = ({children, title, titleColorClass, items}: Props) => {
+const Accordion = ({children, title, titleColorClass, items, action}: Props) => {
   const [opened, setOpened] = useState(false)
+  const togleOpened = () =>{
+    setOpened(!opened)
+    if (action){
+        action()
+    }
+  }
   return (
     <div className='w-full'>
-        <div className={`flex justify-between items-center w-full h-12 rounded-lg  px-2 cursor-pointer ${titleColorClass? titleColorClass:"bg-light-blue-100"}`}  onClick={() => setOpened(!opened)}>
+        <div className={`flex justify-between items-center w-full h-12 rounded-lg  px-2 cursor-pointer ${titleColorClass? titleColorClass:"bg-light-blue-100"}`}  onClick={togleOpened}>
             <h1 className='flex items-center font-bold'>{title}</h1>
             <div className='flex items-center justify-between w-16'>
                 {items && <span className='h-8 w-8 rounded-full flex justify-center items-center bg-white'>{items}</span>}
