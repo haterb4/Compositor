@@ -15,7 +15,7 @@ const ProjectList = ({localProjects, composedProjects, action}: Props) => {
     setLisProjects(listprojects)
   }, [listprojects])  
   return (
-    <div className='h-full grid grid-cols-5 overflow-y-scroll'>
+    <div className='h-full grid grid-cols-5 content-start gap-8 place-items-center md:grid-cols-4 overflow-y-scroll'>
         {composedProjects.map((project, index) => (
             <Card
             key={index}
@@ -35,7 +35,7 @@ const ProjectList = ({localProjects, composedProjects, action}: Props) => {
             size={project.sizes.export} file={false}
             name={project.name} fgClass="text-light-blue-500"
             bgClass="bg-light-blue-100"
-            action={() => action(index, 'local')}
+            action={() => action}
           />
         ))}
     </div>

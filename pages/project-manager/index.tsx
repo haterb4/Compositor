@@ -54,7 +54,7 @@ const Manager = () => {
   }
   const chooseProject = (index: number, where: String) => {
     setSingleProjects(true)
-    where === 'composed'? setThisProjects(projects[index]): setThisProjects(localprojects[index])
+    where === 'composed' ? setThisProjects(projects[index]): setThisProjects(localprojects[index])
   }
   const submitNewProject = () => {
     setCreateProject(false)
