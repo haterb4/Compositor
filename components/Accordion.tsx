@@ -24,11 +24,25 @@ const Accordion = ({children, title, titleColorClass, roundClass, childrenPaddin
   }
   return (
     <div className={`w-full h-full ${vsep? vsep: ''}`}>
-        <div className={`flex justify-between items-center w-full h-12 ${roundClass? roundClass :'rounded-lg'}  px-2 cursor-pointer ${titleColorClass? titleColorClass:"bg-light-blue-100"}`}  onClick={togleOpened}>
-            <h1 className='flex items-center font-bold'>
-              {nodeType &&(<div className={`h-10 w-10 rounded-full ${nodeType.toLocaleLowerCase() ==='co'? 'bg-blue-200': nodeType.toLocaleLowerCase() ==='pt'? 'bg-green-200':nodeType.toLocaleLowerCase() ==='ch'?'bg-orange-200': nodeType.toLocaleLowerCase() ==='pr'? 'bg-red-200': nodeType.toLocaleLowerCase() ==='no'? 'bg-indigo-300': 'bg-amber-600'} text-white font-extrabold flex justify-center items-center mr-2`}>{nodeType[0].toUpperCase()+nodeType[1].toLocaleLowerCase()}</div>)}
-              <span>{title}</span>
-            </h1>
+        <div 
+          className={`flex justify-between items-center w-full h-12 ${roundClass? roundClass :'rounded-lg'}  px-2 cursor-pointer ${titleColorClass? titleColorClass:"bg-light-blue-100"}`} 
+          onClick={togleOpened}
+        >
+            {<h1 className='flex items-center font-bold'>
+                {nodeType &&(
+                  <div
+                    className={`h-10 w-10 rounded-full
+                    ${nodeType.toLocaleLowerCase() ==='co'?
+                    'bg-blue-200': nodeType.toLocaleLowerCase() ==='pt'? 
+                    'bg-green-200':nodeType.toLocaleLowerCase() ==='ch'?
+                    'bg-orange-200': nodeType.toLocaleLowerCase() ==='pr'?
+                    'bg-red-200': nodeType.toLocaleLowerCase() ==='no'?
+                    'bg-indigo-300': 'bg-amber-600'} text-white font-extrabold flex justify-center items-center mr-2`}>
+                        {nodeType[0].toUpperCase()+nodeType[1].toLocaleLowerCase()}
+                  </div>
+                )}
+                <span>{title}</span>
+            </h1>}
             { nodeType && nodeType.toLocaleLowerCase() ==='no'
               ?''
               :<div className={`flex items-center justify-between ${items? 'w-16': ''}`}>
