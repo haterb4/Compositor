@@ -32,22 +32,24 @@ const ManagerLayouth = ({children, project, projects, root, title}: Props) => {
             ?<ProjectManagerTreeView title={title} projects={projects} action={() => null }/>
             :<FileManagerTreeView title={title} project={project} action={() => null }/>
           }
-            <section className='h-full w-full flex flex-col justify-between pl-4 overflow-hidden'>
+            <section className='h-full w-full flex flex-col justify-between pl-4 overflow-hidden relative'>
                 <Search />
                 <div className='w-full h-full p-2 overflow-hidden'>
                     <div className='h-full w-full border rounded-lg bg-blue-gray-50 p-4 overflow-hidden  relative'>
                         {children}
-                        <button className='w-64 h-12 bg-white flex items-center justify-start px-4 absolute bottom-8 right-16 hover:bg-blue-100' onClick={() => setCreateProject(true)}>
-                            <span className='text-light-blue-500'><FontAwesomeIcon icon={faPlus} className='fa-2x'/></span>
-                            <p className='capitalize pl-3 font-bold'>nouvelle composition</p>
-                        </button>
+                        <div className=' absolute bottom-8 right-16'>
+                          <button className='w-64 h-12 bg-white flex items-center justify-start px-4 hover:bg-blue-100' onClick={() => setCreateProject(true)}>
+                              <span className='text-light-blue-500'><FontAwesomeIcon icon={faPlus} className='fa-2x'/></span>
+                              <p className='capitalize pl-3 font-bold'>nouvelle composition</p>
+                          </button>
+                        </div>
                     </div>
                 </div>
             </section>
             {createProject && <div className='absolute w-full h-full z-50' style={{background: 'rgba(3, 3, 3, 0.4)'}}>
                 <div className=' flex justify-center items-center w-full h-full relative'>
                     <div className='w-96 h-44 bg-white rounded-lg'>
-                        <h1 className='font-extrabold text-2xl text-center py-3 mt-2'>New composition</h1>
+                        <h1 className='font-extrabold text-2xl text-center py-3 mt-2'>Nouvelle composition</h1>
                         <div className='p-2 mt-4'>
                             <input
                                 type="text"

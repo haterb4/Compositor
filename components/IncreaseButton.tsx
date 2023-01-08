@@ -20,7 +20,7 @@ const IncreaseButton = ({state, stater}: Props) => {
   }
   return (
     <div className='flex justify-between items-center h-12 border mx-2 rounded-lg px-2 w-20'>
-        <input type="text" className='h-8 w-full outline-none' value={state} onChange={ e => stater(e.target.value) }/>
+        <input type="text" className='h-8 w-full outline-none' value={state} onChange={ e => stater(Number.parseInt(e.target.value)) }/>
         <div className='flex flex-col justify-center h-12'>
             <button className='h-3 flex justify-center items-center' onClick={increment}><FontAwesomeIcon icon={faChevronUp}/></button>
             <button className='h-3 flex justify-center items-center' onClick={decrement}><FontAwesomeIcon icon={faChevronDown}/></button>
