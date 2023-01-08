@@ -34,7 +34,7 @@ const Login= () => {
             else{
                 if (email === 'haterb2803@gmail.com' && password === 'xccm password'){
                     const destination = window.location.origin
-                    window.location.href = `${destination}/project-manager`
+                    window.location.href = `${destination}/projects-manager`
                 }
                 else{
                     setError(true)
