@@ -6,11 +6,13 @@
 }
 .textWelcome{
   @apply text-4xl text-white;
-  text-shadow: 2px 2px 5px black;
+  text-transform: uppercase;
+  -webkit-text-stroke: 1.5px black;
+  font-weight: 700;
   border-block: solid;
 }
 .textIntro{
-  @apply text-4xl pl-2 text-black;
+  @apply text-5xl pl-2 text-black;
 }
 
 .startButton{
