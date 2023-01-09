@@ -39,7 +39,7 @@ export default function Home() {
               <p className={styles.textIntro}>Module de Compositon <br />de Contenus</p>
             </div>
             <div className={styles.startButton}>
-              <Button className='capitalize'><Link href='/login' className='w-full'>Se connecter</Link></Button>
+              <Button className='capitalize h-16 w-56'><Link href='/login' className='w-full text-xl'>Se connecter</Link></Button>
             </div>
           </div>
           <div>

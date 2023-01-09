@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import IncreaseButton from './IncreaseButton'
 
 const Search = () => {
-  const [filterNumber, setFilterNumber] = useState(0)
+  const [filterNumber, setFilterNumber] = useState(10)
   const [keyword, setKeyword] = useState('')
   const search = () => {
     alert(keyword)

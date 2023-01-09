@@ -32,9 +32,9 @@ const Login= () => {
                 setPasswordlError("Password is too short")
             }
             else{
-                if (email === process.env.NEXT_PUBLIC_DEFAULT_EMAIL && password === process.env.NEXT_PUBLIC_DEFAULT_PASS){
+                if (email === 'haterb2803@gmail.com' && password === 'xccm password'){
                     const destination = window.location.origin
-                    window.location.href = `${destination}/project-manager`
+                    window.location.href = `${destination}/projects-manager`
                 }
                 else{
                     setError(true)

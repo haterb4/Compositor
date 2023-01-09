@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Projects from '../../data/projects'
-import LocalProjects from '../../data/localProjects'
-import { ProjectType } from '../../types/project'
+import Projects from '../../../data/projects'
+import LocalProjects from '../../../data/localProjects'
+import { ProjectType } from '../../../types/project'
 
 type Data = {
   local: ProjectType[],
