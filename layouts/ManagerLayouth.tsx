@@ -37,12 +37,14 @@ const ManagerLayouth = ({children, project, projects, root, title}: Props) => {
                 <div className='w-full h-full p-2 overflow-hidden'>
                     <div className='h-full w-full border rounded-lg bg-blue-gray-50 p-4 overflow-hidden  relative'>
                         {children}
-                        <div className=' absolute bottom-8 right-16'>
-                          <button className='w-64 h-12 bg-white flex items-center justify-start px-4 hover:bg-blue-100' onClick={() => setCreateProject(true)}>
-                              <span className='text-light-blue-500'><FontAwesomeIcon icon={faPlus} className='fa-2x'/></span>
-                              <p className='capitalize pl-3 font-bold'>nouvelle composition</p>
-                          </button>
-                        </div>
+                        <button 
+                          className='w-64 h-12 bg-white flex items-center justify-start px-4 hover:bg-blue-100'
+                          onClick={() => setCreateProject(true)}
+                          style={{position: 'absolute', right: '2rem', bottom: '2rem'}}
+                        >
+                            <span className='text-light-blue-500'><FontAwesomeIcon icon={faPlus} className='fa-2x'/></span>
+                            <p className='capitalize pl-4 font-bold'>nouvelle composition</p>
+                        </button>
                     </div>
                 </div>
             </section>

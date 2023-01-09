@@ -27,10 +27,10 @@ const FileManagerTreeView = ({ title, project, action }: Props) => {
             <div className='mb-1'>
                 <Accordion title={title} titleColorClass="bg-light-blue-200" items={4} action={action}>
                     <div>
-                        <AccordionButton icon={faFile} bgClass="bg-light-blue-300" href={`projects-manager/projec/1`}>{single.name}</AccordionButton>
-                        <AccordionButton icon={faFolder} bgClass="bg-light-blue-300" href={`project/${single.id}`}>Configurations</AccordionButton>
-                        <AccordionButton icon={faFolder} bgClass="bg-light-blue-300" href={`project/${single.id}`}>Ressources</AccordionButton>
-                        <AccordionButton icon={faFolder} bgClass="bg-light-blue-300" href={`project/${single.id}`}>Exports</AccordionButton>
+                        <AccordionButton icon={faFile} bgClass="bg-light-blue-300" href={`projects-manager/project/${single.id}`}>{single.name}</AccordionButton>
+                        <AccordionButton icon={faFolder} bgClass="bg-light-blue-300" href={`projects-manager/project/${single.id}/assets/configurations`}>Configurations</AccordionButton>
+                        <AccordionButton icon={faFolder} bgClass="bg-light-blue-300" href={`projects-manager/project/${single.id}/assets/ressources`}>Ressources</AccordionButton>
+                        <AccordionButton icon={faFolder} bgClass="bg-light-blue-300" href={`projects-manager/project/${single.id}/assets/exports`}>Exports</AccordionButton>
                     </div>
                 </Accordion>
             </div>

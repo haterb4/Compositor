@@ -10,7 +10,7 @@ const ProjectGrid = ({project}: Props) => {
   return (
     <div>
       {project && (
-        <div className='h-full grid grid-cols-5 gap-4 overflow-y-scroll'>
+        <div className='h-full grid grid-cols-5 gap-4 overflow-y-auto'>
             <Card
               icon={project.fileIcon}
               id={project.id}

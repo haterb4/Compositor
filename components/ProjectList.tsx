@@ -13,7 +13,7 @@ const ProjectList = ({projects}: Props) => {
     setLisProjects(listprojects)
   }, [listprojects])  
   return (
-    <div className='h-full grid grid-cols-5 content-start gap-8 place-items-center md:grid-cols-4 overflow-y-scroll'>
+    <div className='h-full grid grid-cols-5 content-start gap-8 place-items-center md:grid-cols-4 overflow-y-auto'>
         {projects.map((project, index) => (
             <Card
             key={index}

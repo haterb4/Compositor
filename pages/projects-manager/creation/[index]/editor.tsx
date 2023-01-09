@@ -3,19 +3,35 @@ import React, { useEffect, useRef, useState } from 'react'
 import Header from '../../../../components/Header'
 import NotionFinder from '../../../../components/NotionFinder'
 import ContentTable from '../../../../components/ContentTable'
-import { Button } from '@material-tailwind/react'
-import Link from 'next/link'
 import Editor from '../../../../components/TextEditor'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { RawDraftContentState } from 'react-draft-wysiwyg'
 
 type Props  = {
     children: JSX.Element
 }
 
 const EditorLayout = () => {
-  
   const [editionMode, setEditionMode] = useState(true)
+  const [editorContent, setEditorContent] = useState <RawDraftContentState>()
+  const getProjectFile = async () => {
+    await fetch(`/api/projects/getone`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.status === true) setEditorContent(data.content)
+      else console.log('nothing')
+    })
+    .catch((e) => {
+      console.log("une erreur est survenue")
+      console.log(e)
+    })
+  }
+
+  useEffect(() => {
+    getProjectFile()
+  }, [])
+
   return (
     <div className='w-full h-screen overflow-hidden pb-1 flex flex-col justify-between items-start relative'>
         <Header />
@@ -29,7 +45,7 @@ const EditorLayout = () => {
                 <Button className='capitalize h-12 w-32 text-xl' onClick={() => setEditionMode(false)}>Generer</Button>
               </div>**/}
               <div className='m-auto h-full w-full rounded-lg bg-[#F8F9FA] pb-2 relative'>
-                <Editor />
+                <Editor projectName='projectfilestate' editorContent={editorContent}/>
               </div>
             </section>
             <NotionFinder />
