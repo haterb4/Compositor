@@ -32,7 +32,7 @@ const Login= () => {
                 setPasswordlError("Password is too short")
             }
             else{
-                if (email === 'haterb2803@gmail.com' && password === 'xccm password'){
+                if (email === 'sarah@gmail.com' && password === 'xccm xccm'){
                     const destination = window.location.origin
                     window.location.href = `${destination}/projects-manager`
                 }
