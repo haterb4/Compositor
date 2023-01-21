@@ -1,4 +1,4 @@
-import { faClose, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faClose, faFileWord, faFolder, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import { JsxElement } from 'typescript'
@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import ProjectManagerTreeView from '../components/ProjectManagerTreeView'
 import Search from '../components/Search'
 import { ProjectType } from '../types/project'
+import jsondata from "../pages/api/projects/projects.json"
 
 type Props = {
     children: JSX.Element,
@@ -18,8 +19,48 @@ type Props = {
 const ManagerLayouth = ({children, project, projects, root, title}: Props) => {
   const [createProject, setCreateProject] = useState(false)
   const [newProjectName, setNewProjectName] = useState('')
+  const createNewProject = async (url = '', data = {}) => {
+    // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
   const submitNewProject = () => {
     setCreateProject(false)
+    const tempProject = {
+      name: newProjectName,
+      id: jsondata.projects.toString(),
+      fileIcon: faFileWord.toString(),
+      folderIcon: faFolder.toString(),
+      ressourcesid: jsondata.projects.toString(),
+      exportid: '',
+      configurationsid: jsondata.projects.toString(),
+      fgClass: '',
+      bgClass: '',
+      description: "",
+      createdAt: "03/01/2023",
+      sizes: {
+          file: "5.5MB",
+          configurations: "5.5MB",
+          ressourses: "5.5MB",
+          export: "5.5MB"
+      }
+  }
+    jsondata.projects.push(tempProject)
+    createNewProject("/api/new", {project: tempProject})
+    
+    console.log(jsondata.projects);
     if (newProjectName !== '')alert('Project successfull created')
     else alert('Empty project name')
   }
