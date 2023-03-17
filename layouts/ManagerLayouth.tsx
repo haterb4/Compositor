@@ -1,7 +1,6 @@
 import { faClose, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
-import { JsxElement } from 'typescript'
 import FileManagerTreeView from '../components/FileManagerTreeView'
 import Header from '../components/Header'
 import ProjectManagerTreeView from '../components/ProjectManagerTreeView'
@@ -11,18 +10,19 @@ import { ProjectType } from '../types/project'
 type Props = {
     children: JSX.Element,
     project?: ProjectType,
-    projects?: ProjectType[],
+    projects?: string[],
     root: Boolean,
     title: String
+    modalState?: {
+      setState: Function,
+      state: string,
+      submit: Function
+    }
 }
-const ManagerLayouth = ({children, project, projects, root, title}: Props) => {
+const ManagerLayouth = ({children, project, projects, root, title, modalState}: Props) => {
   const [createProject, setCreateProject] = useState(false)
-  const [newProjectName, setNewProjectName] = useState('')
-  const submitNewProject = () => {
-    setCreateProject(false)
-    if (newProjectName !== '')alert('Project successfull created')
-    else alert('Empty project name')
-  }
+  
+  
   return (
     <div className='w-full h-screen overflow-hidden flex flex-col justify-between items-start'>
         <Header />
@@ -48,24 +48,28 @@ const ManagerLayouth = ({children, project, projects, root, title}: Props) => {
                     </div>
                 </div>
             </section>
-            {createProject && <div className='absolute w-full h-full z-50' style={{background: 'rgba(3, 3, 3, 0.4)'}}>
+            {/* modal create project */}
+            {createProject && 
+            modalState?(<div className='absolute w-full h-full z-50' style={{background: 'rgba(3, 3, 3, 0.4)'}}>
                 <div className=' flex justify-center items-center w-full h-full relative'>
-                    <div className='w-96 h-44 bg-white rounded-lg'>
+                    <div className='w-96 h-52 bg-white rounded-lg'>
                         <h1 className='font-extrabold text-2xl text-center py-3 mt-2'>Nouvelle composition</h1>
-                        <div className='p-2 mt-4'>
+                        <h4 className='px-2 font-bold mt-2'>Nom de la composition</h4>
+                        <div className='p-2'>
                             <input
                                 type="text"
                                 className='w-full h-12 border border-blue-gray-200 rounded-lg px-2'
                                 placeholder='Project name'
-                                value={newProjectName}
-                                onChange={ e => setNewProjectName(e.target.value)}
-                                onKeyDown={e => { if (e.key === 'Enter') submitNewProject()}}
+                                value={modalState?modalState.state: ''}
+                                onChange={ e => {modalState?modalState.setState(e.target.value): null}}
+                                onKeyDown={e => { if (e.key === 'Enter') {modalState?modalState.submit(): null; setCreateProject(false)}}}
                             />
                         </div>
                     </div>
-                    <button className='h-12 w-12 absolute right-0 top-0 text-white' onClick={() => setCreateProject(false)}><FontAwesomeIcon icon={faClose} className='fa-2x'/></button>
+                    <button className='h-12 w-12 absolute right-0 top-0 text-white' onClick={() => {setCreateProject(false);}}><FontAwesomeIcon icon={faClose} className='fa-2x'/></button>
                 </div>
-            </div>}
+            </div>): ''
+            }
           </div>
         </div>
     </div>

@@ -7,7 +7,7 @@ import AccordionButton from './AccordionButton'
 
 type Props = {
     title: String,
-    projects?:  ProjectType[],
+    projects?:  string[],
     action: Function
 }
 
@@ -19,8 +19,8 @@ const ProjectManagerTreeView = ({ title, projects, action }: Props) => {
                 <Accordion title={title} titleColorClass="bg-light-blue-200" items={projects.length} action={action}>
                     <div>
                         {
-                            projects.map((project:ProjectType, index: number) => (
-                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-300" href={`projects-manager/projec/${project.id}`}>{project.name}</AccordionButton>
+                            projects.map((name:string, index: number) => (
+                                <AccordionButton key={index} icon={faFolder} bgClass="bg-light-blue-300" href={`projects-manager/project/${name}`}>{name}</AccordionButton>
                             ))
                         }
                     </div>
