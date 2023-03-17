@@ -24,8 +24,8 @@ export default function Home() {
           <div className='mr-4'>
             <Image
               src='/images/LOGO-POLYTECHNIQUE-01-scaled.jpg'
-              height={100}
-              width={100}
+              height={126}
+              width={126}
               alt='office scheme'
             />
           </div>
@@ -33,7 +33,7 @@ export default function Home() {
         </div>
         <div className={styles.homeContent}>
           <div>
-            <h1 className='text-6xl uppercase font-extrabold'>XCCM</h1>
+            <h1 className='text-9xl uppercase font-extrabold'>XCCM</h1>
             <div className='pl-6 leading-8 mt-6 flex items-stretch justify-start'>
               <div className='h-ful w-1 bg-gradient-to-b from-amber-900 via-amber-700 to-amber-500'></div>
               <p className={styles.textIntro}>Module de Compositon <br />de Contenus</p>
@@ -44,7 +44,7 @@ export default function Home() {
           </div>
           <div>
             <Image
-              src='/images/useoffice-scheme.png'
+              src='/images/useoffice-scheme2.svg'
               height={550}
               width={550}
               alt='office scheme'

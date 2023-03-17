@@ -1,4 +1,4 @@
-import { faClose, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faClose, faFileWord, faFolder, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import FileManagerTreeView from '../components/FileManagerTreeView'
@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import ProjectManagerTreeView from '../components/ProjectManagerTreeView'
 import Search from '../components/Search'
 import { ProjectType } from '../types/project'
+import jsondata from "../pages/api/projects/projects.json"
 
 type Props = {
     children: JSX.Element,
