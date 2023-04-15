@@ -1,6 +1,19 @@
 .layoutContainer{
     @apply h-screen w-full relative overflow-hidden;
 }
+.loginContainer{
+  @apply h-screen w-full relative overflow-hidden;
+  background: linear-gradient(120deg, #E9D6A5, #EEF1F5);
+  padding: 2% 4%;
+}
+.mainLoginContainer{
+  @apply overflow-hidden relative shadow-lg;
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 64px;
+}
+
 .textWelcome{
     @apply text-3xl text-white;
     width: 500px !important;
@@ -16,10 +29,10 @@
     border-bottom-right-radius: 45%;
 }
 .xccm{
-    @apply text-7xl uppercase font-extrabold mb-6;
+    @apply text-7xl uppercase font-extrabold mb-6 text-white;
 }
 .textIntro{
-    @apply text-4xl pl-2 text-black;
+    @apply text-4xl pl-2 text-white;
 }
 .childSide{
     @apply absolute top-0 left-0 w-full h-full flex justify-center items-center;

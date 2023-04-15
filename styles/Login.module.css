@@ -1,6 +1,7 @@
 .loginForm{
-    @apply bg-white rounded-lg flex flex-col items-center p-4 h-80 shadow-lg border;
+    @apply bg-white flex flex-col justify-around items-center p-4 h-80 shadow-lg border;
     width: 450px;
+    border-radius: 32px;
 }
 
 .loginField{
