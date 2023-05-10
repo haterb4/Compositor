@@ -19,11 +19,11 @@ const AuthLayout = ({title, children}: Props) => {
                 <div className={styles.mainLoginContainer}>
                     <div className={styles.leftSide}>
                     <div className='w-full flex items-center justify-start my'>
-                        <div className='mr-4 border-2 h-40 w-40 rounded-full overflow-hidden flex items-center justify-center'>
+                        <div className='mr-4 border-2 h-22 w-22 rounded-full overflow-hidden flex items-center justify-center'>
                             <Image
                             src='/images/LOGO-POLYTECHNIQUE-01-scaled.jpg'
-                            height={200}
-                            width={200}
+                            height={150}
+                            width={150}
                             alt='office scheme'
                             />
                         </div>
