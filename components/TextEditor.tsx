@@ -9,10 +9,11 @@ import { RawDraftContentState } from "react-draft-wysiwyg";
 
 type Props = {
   projectName: String,
-  editorContent: RawDraftContentState | undefined
+  editorContent: RawDraftContentState | undefined;
+  saveEditorContent: Function
 }
 
-const TextEditor = ({ projectName, editorContent }: Props) => {
+const TextEditor = ({ projectName, editorContent, saveEditorContent }: Props) => {
   const [editorState, setEditorState] = useState(() =>  
     EditorState.createEmpty()
   );
@@ -24,28 +25,7 @@ const TextEditor = ({ projectName, editorContent }: Props) => {
     setEditorState(editorState);
   }
   const saveState = async (data = {}) => {
-    // Default options are marked with *
-    await fetch('/api/projects/save', {
-        method: 'POST', 
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache',
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(data)
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      setSaveStatus(data.status)
-    })
-    .catch((e) => {
-      setSaveStatus(false)
-      setSavable(true)
-      console.log(e)
-    })
+    
   }
   useEffect(() => {
     setInterval(() => {
@@ -76,6 +56,9 @@ const TextEditor = ({ projectName, editorContent }: Props) => {
       setEditorState(EditorState.createEmpty())
     }
   }, [editorContent])
+  useEffect(() => {
+    saveEditorContent(convertToRaw(editorState.getCurrentContent()));
+  }, [editorState, saveEditorContent])
   return (
     <div className="relative">
       <Editor
