@@ -7,7 +7,8 @@ export interface DocData {
         level: number;
     };
     marks?: {
-        type: string
+        type: string,
+        value: string;
     }[];
     content: DocData[] | string;
 }

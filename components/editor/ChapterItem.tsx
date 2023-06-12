@@ -3,9 +3,9 @@ import EditorItem, { ItemOptionsProps } from './EditorItem'
 import { DocData } from '../../pages/api/documents/[id]'
 import { NodeType } from '../../data/doc'
 
-const SectionItem = (props: ItemOptionsProps) => {
+const ChapterItem = (props: ItemOptionsProps) => {
   const [sectionDocument, setSectionDocument] = useState<DocData>({
-    nodeType: NodeType.SECTION,
+    nodeType: NodeType.CHAPTER,
     content:[]
   })
 
@@ -27,4 +27,4 @@ const SectionItem = (props: ItemOptionsProps) => {
   )
 }
 
-export default SectionItem
+export default ChapterItem

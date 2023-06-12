@@ -4,7 +4,7 @@ import { DocData } from "../../pages/api/documents/[id]"
 export const buildContentTableUtils = (partialDocument: DocData): string => {
     console.log('noeud: ', partialDocument)
     if (partialDocument.nodeType === NodeType.DOCUMENT){
-        let partialHtmlString = '<section>'
+        let partialHtmlString = '<section class="pl-2 flex flex-col justify-start items-start text-left">'
         const partialDacumentMarks = partialDocument.marks
         if (partialDacumentMarks !== undefined){
             let classes = ''
@@ -24,10 +24,11 @@ export const buildContentTableUtils = (partialDocument: DocData): string => {
             partialHtmlString += partialResult
         }
         partialHtmlString += '</section>'
+        console.log('section: ', partialHtmlString)
         return partialHtmlString
     }
     if (partialDocument.nodeType === NodeType.PART){
-        let partialHtmlString = '<div>'
+        let partialHtmlString = `<div class="pl-2 flex flex-col justify-start items-start text-left">`
         const partialDacumentMarks = partialDocument.marks
         if (partialDacumentMarks !== undefined){
             let classes = ''
@@ -50,7 +51,7 @@ export const buildContentTableUtils = (partialDocument: DocData): string => {
         return partialHtmlString
     }
     if (partialDocument.nodeType === NodeType.CHAPTER){
-        let partialHtmlString = '<div>'
+        let partialHtmlString = '<div class="pl-2 flex flex-col justify-start items-start text-left">'
         const partialDacumentMarks = partialDocument.marks
         if (partialDacumentMarks !== undefined){
             let classes = ''
@@ -73,7 +74,7 @@ export const buildContentTableUtils = (partialDocument: DocData): string => {
         return partialHtmlString
     }
     if (partialDocument.nodeType === NodeType.SECTION){
-        let partialHtmlString = '<div>'
+        let partialHtmlString = '<div class="pl-2 flex flex-col justify-start items-start text-left">'
         const partialDacumentMarks = partialDocument.marks
         if (partialDacumentMarks !== undefined){
             let classes = ''
@@ -100,7 +101,7 @@ export const buildContentTableUtils = (partialDocument: DocData): string => {
         const level = partialDocument.attrs
         if (level !== undefined){
             //let title = `<h${level.level}>`
-            let title = `<button class="text-green-900">`
+            let title = `<button class="text-green-900 text-left hover:underline">`
 
             const partialDacumentMarks = partialDocument.marks
             if (partialDacumentMarks !== undefined){
@@ -108,7 +109,8 @@ export const buildContentTableUtils = (partialDocument: DocData): string => {
                 const marks = partialDocument.marks
                 if (marks !== undefined) {
                     for (let i = 0; i < marks.length; i++){
-                        classes += ` ${marks[i].type}`
+                        if (marks[i].type === 'class')
+                        classes += ` ${marks[i].value}`
                     }
                 }
                 title = `<h${level.level} class="${classes}">`

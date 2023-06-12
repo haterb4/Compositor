@@ -8,59 +8,103 @@ import NotionFinder from '../../../../components/NotionFinder'
 import Header from '../../../../components/Header'
 import Accordion from '../../../../components/Accordion'
 import ToolBarButton from '../../../../components/editor/ToolBarButton'
-import { MyEditor } from '../../../../components/editor/Editor'
-import doc, { NodeType } from '../../../../data/doc'
+import doc, { NodeType, newDoc } from '../../../../data/doc'
 import { DocData } from '../../../api/documents/[id]'
 import parse from 'html-react-parser';
 import { buildContentTableUtils } from '../../../../components/editor/editorUtils'
 import EditorItem from '../../../../components/editor/EditorItem'
-import SectionItem from '../../../../components/editor/SectionItem'
-import ParagraphItem from '../../../../components/editor/ParagraphItem'
 
 const DraftEditor = () => {
     //show the editing mode
     const [editionMode, setEditionMode] = useState(true)
-    const [richTextEditorContent, setRichTextEditorContent] = useState(doc)
+
+    //document squeleton: this will content all the document json structure at the end of work
+    const [document, setDocument] = useState<DocData>(newDoc)
+
+    const [documentContent, setDocumentContent] = useState<DocData[]>([])
+
+    //content table jsx element after building
     const [contentTable, setContentTable] = useState<JSX.Element>()
+
     const [contentTree, setContentTree] = useState<JSX.Element>()
-    const [editableChildren, setEditableChildren] = useState<JSX.Element[]>([])
+
+    //contains jsx elements that will be rendered
+    const [editorJSXDocument, setEditorJSXDocument] = useState<JSX.Element[]>([])
+
     const [newChild, setNewChild] = useState<JSX.Element>()
+
     const [options, setOptions] = useState(false)
-    
+    //receiving new partial document and update global document
+    const editContent = (newDoc: DocData, index: number) => {
+      if (index !== undefined){
+        let docContent:DocData[] | undefined = documentContent
+        if (docContent !== undefined){
+          docContent[index] = newDoc
+          setDocumentContent(docContent)
+          const doc = document
+          doc.content = documentContent as DocData[]
+          setDocument(doc)
+          let contentTableString = getContentTable(document)
+          const contentTableJSX = parse(contentTableString) as JSX.Element
+          //rendering the content table
+          setContentTable(contentTableJSX) 
+        }
+        //console.log(document)
+        //console.log(contentTable)
+      }
+    }
+
     //show the preview mode
     const previewEditorContent = () => {
         setEditionMode(false)
     }
+
     const getContentTable = (partialDocument: DocData): string => {
+      console.log('base document: ', partialDocument)
       const contentTable = buildContentTableUtils(partialDocument)
+      //console.log('content table', contentTable)
       return contentTable
     }
+    //hooks usEeffect
 
-    const addSection = () => {
-      setNewChild(
-          <SectionItem outAddParagraph={addParagraph} outAddSection={addSection}/>
-      )
-      setOptions(false)
-    }
-    const addParagraph = () => {
-      setNewChild(
-          <ParagraphItem />
-      )
-      setOptions(false)
-    }
+    //on document first build
     useEffect(() => {
-      let htmlString = getContentTable(richTextEditorContent)
-      const html = parse(htmlString) as JSX.Element
-      setContentTable(html) 
-    }, [richTextEditorContent])
-    useEffect(() => {
-      if (editableChildren.length === 0){
-        setEditableChildren([<EditorItem key={0} outAddParagraph={addParagraph} outAddSection={addSection}/>])
+      // set the document squeleton
+      if(document === undefined){
+        setDocument(newDoc)
+        //retreiving content table
+        let contentTableString = getContentTable(document)
+        const contentTableJSX = parse(contentTableString) as JSX.Element
+        //rendering the content table
+        setContentTable(contentTableJSX) 
+        //console.log(contentTable)
+      }
+
+      if (editorJSXDocument.length === 0){
+        setEditorJSXDocument([
+          <EditorItem key={0} parenStateModifier={editContent} itemId={1}/>,
+        ])
       }
     }, [])
+
+    //when the document change
+    useEffect(() => {
+      // set the document squeleton
+      if(document === undefined){
+        setDocument(newDoc)
+      }
+      else{
+        //retreiving content table
+        let contentTableString = getContentTable(document)
+        const contentTableJSX = parse(contentTableString) as JSX.Element
+        //rendering the content table
+        setContentTable(contentTableJSX) 
+      }
+    }, [document])
+
     useEffect(() => {
       if (newChild !== undefined) {
-        setEditableChildren([...editableChildren, newChild])
+        setEditorJSXDocument([...editorJSXDocument, newChild])
           setNewChild(undefined)
       }
     }, [newChild])
@@ -72,8 +116,8 @@ const DraftEditor = () => {
           <section className='w-96 h-full border-2 flex flex-col justify-between rounded-lg overflow-hidden p-2 relative'>
             <div className='w-full h-full'>
               <h1>Table of contents</h1>
-              <div>
-                <h2>{contentTable}</h2>
+              <div className='!text-left'>
+                {contentTable ? contentTable : "empty" }
               </div>
             </div>
             <div className='flex justify-end h-12 w-12 rounded-full absolute bottom-0 right-1'><Button className='w-12 h-12 rounded-full flex justify-center items-center'><FontAwesomeIcon icon={faPlus}/></Button></div>
@@ -89,7 +133,10 @@ const DraftEditor = () => {
                 {/* the editor zone */}
                 <div className="relative h-full overflow-hidden">
                   <div className='w-full h-full overflow-hidden flex flex-col relative'>
-                    {/* the toolbar*/}
+                    {/* 
+                      the toolbar
+                      all text manipulations functions
+                    */}
                     <div className='w-full px-4 flex justify-center items-center h-[50px] bg-white border'>
                       <div className='h-full w-full flex justify-between items-center'>
                         <div className='flex'>
@@ -107,10 +154,12 @@ const DraftEditor = () => {
                         </div>
                       </div>
                     </div>
-                    {/* the textEditor*/}
+                    {/*
+                      the textEditor
+                      the content editable nested components rendering side
+                    */}
                     <div  className='w-full h-full m-auto mt-2 px-4 overflow-y-scroll focus:border-0'>
-                      
-                      {editableChildren.map((child, index) => {
+                      {editorJSXDocument.map((child, index) => {
                         return (
                           <Fragment key={index}>{child}</Fragment>
                         )

@@ -8,6 +8,11 @@ export const NodeType = {
     NOTION: "notion",
     WORD: "word",
 }
+
+export const newDoc:DocData = {
+    nodeType: NodeType.DOCUMENT,
+    content:[]
+}
 const Project: DocData = {
     nodeType: NodeType.DOCUMENT,
     content: [
