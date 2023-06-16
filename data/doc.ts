@@ -23,7 +23,8 @@ const Project: DocData = {
             },
             marks: [
                 {
-                    type: "text-amber-500",
+                    type: "class",
+                    value: 'text-amber-500'
                 }
             ],
             content: [

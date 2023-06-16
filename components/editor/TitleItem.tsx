@@ -53,11 +53,26 @@ const TitleItem = (props: ItemOptionsProps) => {
         console.log(titleContent)
     }
         
-    // }, [value])
     useEffect(() => {
         setTitleContent(titleContent)
         props.parenStateModifier(titleContent, props.itemId)
     }, [titleContent])
+    
+    useEffect(() => {
+        let childrenDocdata = props.chidrenDocData
+        let wordValue = []
+        if(childrenDocdata !== undefined){
+            childrenDocdata = childrenDocdata as DocData[]
+            for(let i= 0, c = childrenDocdata.length; i< c ;i++){
+                if (childrenDocdata[i].nodeType === NodeType.WORD){
+                    wordValue.push(childrenDocdata[i].content)
+                }
+
+            }
+        }
+        const finalString = wordValue.join(" ")
+        setValue(finalString)
+    }, [props.chidrenDocData])
     return (
         <div className={' w-full relative border border-transparent hover:border-amber-900'}>
             {!editing && (<h1 className={styles.titleText + ' text-5xl my-1'}>{

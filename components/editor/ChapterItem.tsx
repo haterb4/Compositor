@@ -23,7 +23,7 @@ const ChapterItem = (props: ItemOptionsProps) => {
     props.parenStateModifier(sectionDocument, props.itemId)
   }, [props, sectionDocument])
   return (
-    <EditorItem itemId={1} outAddParagraph={props.outAddParagraph} outAddSection={props.outAddSection} parenStateModifier={editContent}/>
+    <EditorItem itemId={1} outAddParagraph={props.outAddParagraph} outAddSection={props.outAddSection} chidrenDocData={props.chidrenDocData}  parenStateModifier={editContent}/>
   )
 }
 

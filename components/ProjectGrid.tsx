@@ -19,7 +19,7 @@ const ProjectGrid = ({project}: Props) => {
               file={true} name={project.name}
               fgClass={project.fgClass}
               bgClass={project.bgClass}
-              href={`projects-manager/creation/${project.id}/editor`}
+              href={`projects-manager/creation/draft/${project.id}`}
             />
             <Card
               icon={project.folderIcon}

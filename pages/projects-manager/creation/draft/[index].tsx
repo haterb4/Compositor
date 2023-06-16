@@ -6,20 +6,22 @@ import axios from 'axios'
 import React, { Fragment, useEffect, useState } from 'react'
 import NotionFinder from '../../../../components/NotionFinder'
 import Header from '../../../../components/Header'
-import Accordion from '../../../../components/Accordion'
 import ToolBarButton from '../../../../components/editor/ToolBarButton'
-import doc, { NodeType, newDoc } from '../../../../data/doc'
+import  { newDoc } from '../../../../data/doc'
 import { DocData } from '../../../api/documents/[id]'
 import parse from 'html-react-parser';
 import { buildContentTableUtils } from '../../../../components/editor/editorUtils'
+import { useRouter } from 'next/router'
 import EditorItem from '../../../../components/editor/EditorItem'
 
 const DraftEditor = () => {
+    const [documentName, setDocumentName] = useState<string>('') 
+    const router = useRouter()
     //show the editing mode
     const [editionMode, setEditionMode] = useState(true)
 
     //document squeleton: this will content all the document json structure at the end of work
-    const [document, setDocument] = useState<DocData>(newDoc)
+    const [documentFile, setDocumentFile] = useState<DocData>(newDoc)
 
     const [documentContent, setDocumentContent] = useState<DocData[]>([])
 
@@ -35,32 +37,66 @@ const DraftEditor = () => {
 
     const [options, setOptions] = useState(false)
     //receiving new partial document and update global document
+    
     const editContent = (newDoc: DocData, index: number) => {
       if (index !== undefined){
         let docContent:DocData[] | undefined = documentContent
         if (docContent !== undefined){
           docContent[index] = newDoc
           setDocumentContent(docContent)
-          const doc = document
+          const doc = documentFile
           doc.content = documentContent as DocData[]
-          setDocument(doc)
-          let contentTableString = getContentTable(document)
-          const contentTableJSX = parse(contentTableString) as JSX.Element
+          setDocumentFile(doc)
+          //let contentTableString = getContentTable(document)
+          //const contentTableJSX = parse(contentTableString) as JSX.Element
           //rendering the content table
-          setContentTable(contentTableJSX) 
+          //setContentTable(contentTableJSX) 
         }
         //console.log(document)
         //console.log(contentTable)
       }
     }
-
+    //getting the document
+   const getDocument = async () => {
+    try {
+      const docname = router.query["index"]
+      console.log(docname)
+      const response = await axios.post(`http://localhost:3000/api/documents/getSingle`, {
+        project: docname,
+        name: docname
+      })
+      const documentData = response.data
+      const receivedDoc = documentData?.document
+      if (receivedDoc){
+        const mydoc = receivedDoc as DocData
+        setDocumentFile(mydoc)
+        console.log(mydoc)
+        console.log(documentFile)
+      }
+    } catch (error) {
+      console.log('can not get the document')
+    }
+   }
+   
+    //saving the document
+    const savedoc = async () => {
+      try {
+        const docname = router.query['index']
+        await axios.post(`http://localhost:3000/api/documents/save/${docname}`, {
+          document: document,
+          project: documentName
+        })
+      } catch (error) {
+        console.log('error')
+      }
+    }
     //show the preview mode
     const previewEditorContent = () => {
         setEditionMode(false)
     }
 
     const getContentTable = (partialDocument: DocData): string => {
-      console.log('base document: ', partialDocument)
+      //console.log('base document: ', partialDocument)
       const contentTable = buildContentTableUtils(partialDocument)
       //console.log('content table', contentTable)
       return contentTable
@@ -68,40 +104,27 @@ const DraftEditor = () => {
     //hooks usEeffect
 
     //on document first build
-    useEffect(() => {
-      // set the document squeleton
-      if(document === undefined){
-        setDocument(newDoc)
-        //retreiving content table
-        let contentTableString = getContentTable(document)
-        const contentTableJSX = parse(contentTableString) as JSX.Element
-        //rendering the content table
-        setContentTable(contentTableJSX) 
-        //console.log(contentTable)
-      }
-
-      if (editorJSXDocument.length === 0){
-        setEditorJSXDocument([
-          <EditorItem key={0} parenStateModifier={editContent} itemId={1}/>,
-        ])
-      }
-    }, [])
+    
 
     //when the document change
-    useEffect(() => {
-      // set the document squeleton
-      if(document === undefined){
-        setDocument(newDoc)
-      }
-      else{
-        //retreiving content table
-        let contentTableString = getContentTable(document)
-        const contentTableJSX = parse(contentTableString) as JSX.Element
-        //rendering the content table
-        setContentTable(contentTableJSX) 
-      }
-    }, [document])
+    // useEffect(() => {
+    //     //retreiving content table
+    //     console.log(document)
+    //     let contentTableString = getContentTable(document)
+    //     const contentTableJSX = parse(contentTableString) as JSX.Element
+    //     //rendering the content table
+    //     setContentTable(contentTableJSX) 
+    // }, [document])
 
+    useEffect(() => {
+      const docname = router.query["index"]
+      console.log(docname)
+      getDocument()
+      setEditorJSXDocument([
+        <EditorItem key={0} parenStateModifier={editContent} chidrenDocData={documentFile.content} itemId={1}/>,
+      ])
+     }, [])
+     
     useEffect(() => {
       if (newChild !== undefined) {
         setEditorJSXDocument([...editorJSXDocument, newChild])
@@ -150,7 +173,7 @@ const DraftEditor = () => {
                           <ToolBarButton icon={faRedo} />
                         </div>
                         <div>
-                          <ToolBarButton icon={faSave} />
+                          <ToolBarButton icon={faSave} action={savedoc}/>
                         </div>
                       </div>
                     </div>

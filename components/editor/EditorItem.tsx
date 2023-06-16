@@ -9,6 +9,7 @@ import ParagraphItem from './ParagraphItem'
 import { DocData } from '../../pages/api/documents/[id]'
 import ChapterItem from './ChapterItem'
 import PartItem from './PartItem'
+import { NodeType } from '../../data/doc'
 
 export interface ItemOptionsProps {
     outAddSection?: Function;
@@ -16,12 +17,13 @@ export interface ItemOptionsProps {
     parenStateModifier: Function;
     itemId: number;
     title?: string;
+    chidrenDocData?: DocData[] | string
 }
 const EditorItem = (props: ItemOptionsProps) => {
   const [editorContent, setChildren] = useState<JSX.Element[]>([])
   const [newChild, setNewChild] = useState<JSX.Element>()
   const [options, setOptions] = useState(false)
-  const [outOptions, setOutOptions] = useState(false)
+  //const [outOptions, setOutOptions] = useState(false)
   const [removeIndex, setRemoveIndex] = useState(-1)
   const [EditorDocument, setEditorDocument] = useState<DocData>()
   const [editorDocumentContent, setEditorDocumentContent] = useState<DocData[]>([])
@@ -58,7 +60,7 @@ const EditorItem = (props: ItemOptionsProps) => {
   const addParagraph = () => {
     console.log(editorContent.length)
     setNewChild(
-        <ParagraphItem parenStateModifier={editContent} outAddSection={() => null} outAddParagraph={() => null} itemId={editorContent.length - 1}/>
+        <ParagraphItem parenStateModifier={editContent} itemId={editorContent.length - 1}/>
     )
     setOptions(false)
   }
@@ -67,6 +69,46 @@ const EditorItem = (props: ItemOptionsProps) => {
     tmp.splice(index, 1)
     setChildren(tmp)
   }
+
+  useEffect(() => {
+    let childrenDocdata = props.chidrenDocData
+    if (childrenDocdata !== undefined) {
+      console.log(childrenDocdata)
+      childrenDocdata = childrenDocdata as DocData[]
+      childrenDocdata.map((child: DocData, index: number) => {
+        if (child.nodeType === NodeType.PART){
+          console.log(child.content)
+          setNewChild(
+            <PartItem parenStateModifier={editContent} chidrenDocData={child.content} itemId={editorContent.length - 1}/>
+          )
+        }
+        if (child.nodeType === NodeType.SECTION){
+          console.log(child.content)
+          setNewChild(
+            <SectionItem parenStateModifier={editContent} chidrenDocData={child.content} itemId={editorContent.length - 1}/>
+          )
+        }
+        else if (child.nodeType === NodeType.CHAPTER) {
+          console.log(child.content)
+          setNewChild(
+            <ChapterItem parenStateModifier={editContent} chidrenDocData={child.content} itemId={editorContent.length - 1}/>
+          )
+        }
+        else if (child.nodeType === NodeType.TITLE){
+          console.log(child.content)
+          setNewChild(
+            <TitleItem parenStateModifier={editContent} chidrenDocData={child.content} itemId={editorContent.length - 1}/>
+          )
+        }
+        else if (child.nodeType === NodeType.NOTION){
+          console.log(child.content)
+          setNewChild(
+            <ParagraphItem parenStateModifier={editContent} chidrenDocData={child.content} itemId={editorContent.length - 1}/>
+          )
+        }
+      })
+    }
+  }, [])
 
   useEffect(() => {
     if (newChild !== undefined) {
@@ -82,7 +124,7 @@ const EditorItem = (props: ItemOptionsProps) => {
             <TitleItem key={0} outAddParagraph={addParagraph} outAddSection={addSection} parenStateModifier={props.parenStateModifier} itemId={0} title={props.title ? props.title : 'Part Title here'}/>
         ])
     }
-  }, [editorContent, editorDocumentContent])
+  }, [editorContent])
 
   useEffect(() => {
     editorDocumentContent.map((item: DocData, index: number) => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import ProjectGrid from '../../../components/ProjectGrid'
 import ManagerLayouth from '../../../layouts/ManagerLayouth'
@@ -9,27 +10,16 @@ import Project from '../../../data/project'
 const Manager = () => {
     const [project, setProject] = useState<ProjectType>(Project)
     var router = useRouter();
-
-    const getSingleProject = (id:number) => {
-        const data = fetch(`/api/projects/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-            setProject(data.project)
-        })
-        .catch((e) => console.log(e))
-    }
-
     useEffect(() => {
-        let id = router.query["query"]
-        if (id !== undefined && id !== null) {
-            if (id === "0" || (typeof id === "string" && Number.parseInt(id))){
-                getSingleProject(Number.parseInt(id))
-            }
-            else{
-                window.location.href = `${window.location.origin}/error`
-            }
-        }
-    }, [router.query])
+        let id = router.query["id"]
+        console.log(id)
+        const proj = project as ProjectType
+        console.log(proj.id)
+        proj.id = id as string
+        setProject(proj)
+        console.log(project)
+        console.log(proj)
+    }, [])
 
     return (
         <ManagerLayouth root={false} projects={[]} project={project} title={project.name}>
