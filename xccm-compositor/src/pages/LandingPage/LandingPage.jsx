@@ -5,7 +5,6 @@ const LandingPage = () => {
   return (
     <div>
         LandingPage
-        Hello Alfred
     </div>
   )
 }

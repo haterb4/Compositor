@@ -1,0 +1,11 @@
+.rich-editor-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    margin-bottom: 5rem;
+}
