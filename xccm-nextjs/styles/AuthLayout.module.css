@@ -1,0 +1,186 @@
+.layoutContainer{
+    @apply h-screen w-full relative overflow-hidden;
+}
+.loginContainer{
+  @apply h-screen w-full relative overflow-hidden;
+  background: linear-gradient(120deg, #E9D6A5, #EEF1F5);
+  padding: 2% 4%;
+}
+.mainLoginContainer{
+  @apply overflow-hidden relative shadow-lg;
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 64px;
+}
+
+.textWelcome{
+    @apply text-3xl text-white;
+    width: 500px !important;
+    -webkit-text-stroke: 1.5px black;
+    font-weight: 700;
+}
+.leftSide{
+    @apply h-full relative flex flex-col justify-between items-start py-12 pl-4;
+    width: 55% !important;
+    background: rgba(15, 100, 246, 0.8);
+    z-index: 99;
+    border-top-right-radius: 45%;
+    border-bottom-right-radius: 45%;
+}
+.xccm{
+    @apply text-7xl uppercase font-extrabold mb-6 text-white;
+}
+.textIntro{
+    @apply text-4xl pl-2 text-white;
+}
+.childSide{
+    @apply absolute top-0 left-0 w-full h-full flex justify-center items-center;
+    z-index: 9999
+}
+.boule1{
+    @apply h-16 w-16 rounded-full absolute;
+    background: rgba(96, 153, 255, 0.8);
+    right: 0;
+    top: 100px;
+}
+.boule2{
+    @apply h-16 w-16 rounded-full absolute;
+    background: rgba(96, 153, 255, 0.8);
+    right: 300px;
+    top: 100px;
+}
+
+.boule3{
+    @apply h-20 w-20 rounded-full absolute;
+    background: rgba(96, 153, 255, 0.8);
+    right: 200px;
+    bottom: -35px;
+}
+
+.boule4{
+    @apply h-20 w-20 rounded-full absolute;
+    border: 1px solid rgba(96, 153, 255, 1);
+    right: -30px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.boule5{
+    @apply h-6 w-6 rounded-full absolute;
+    background: rgba(96, 153, 255, 0.8);
+    right: 20px;
+    top: 50%;
+    transform: translate(0%, -190%);
+}
+.boule6{
+    @apply h-6 w-6 rounded-full absolute;
+    background: rgba(96, 153, 255, 0.8);
+    right: 20px;
+    top: 50%;
+    transform: translate(0%, 90%);
+}
+
+.absoluteIcon1{
+    @apply absolute h-12 w-12;
+    top: 400px;
+    left: 150px;
+    transform: rotateZ(20deg);
+    -webkit-animation: UpDown 1s infinite  alternate;
+    animation: UpDown 1s infinite  alternate;
+  }
+  .absoluteIcon2{
+    @apply absolute h-12 w-12;
+    top: -15px;
+    right: 25px;
+    -webkit-animation: UpDown 1s infinite  alternate;
+    animation: UpDown 1s infinite  alternate;
+  }
+  .absoluteIcon3{
+    @apply absolute h-12 w-12;
+    top: 180px;
+    left: 290px;
+    -webkit-animation: UpDown 1s infinite  alternate;
+    animation: UpDown 1s infinite  alternate;
+  }
+  
+  .absoluteIcon4{
+    @apply absolute h-12 w-12;
+    top: 300px;
+    right: 240px;
+    transform: rotateZ(-20deg);
+    -webkit-animation: LeftRight 1s infinite  alternate;
+    animation: LeftRight 1s infinite  alternate;
+  }
+  .absoluteIcon5{
+    @apply absolute h-12 w-12;
+    bottom: 60px;
+    right: 350px;
+    -webkit-animation: LeftRight 1s infinite  alternate;
+    animation: LeftRight 1s infinite  alternate;
+  }
+  .absoluteIcon6{
+    @apply absolute h-12 w-12;
+    bottom: 100px;
+    right: 80px;
+    transform: rotateZ(-45deg);
+    -webkit-animation: UpDown 1s infinite  alternate;
+    animation: UpDown 1s infinite  alternate;
+  }
+  .absoluteIcon7{
+    @apply absolute h-12 w-12;
+    bottom: 150px;
+    left: 550px;
+    transform: rotateZ(-20deg);
+    -webkit-animation: UpDown 1s infinite  alternate;
+    animation: UpDown 1s infinite  alternate;
+  }
+  .absoluteIcon8{
+    @apply absolute h-12 w-12;
+    top: 100px;
+    left: 20px;
+    -webkit-animation: UpDown 1s infinite  alternate;
+    animation: UpDown 1s infinite  alternate;
+  }
+
+/*responsive*/
+
+@media screen and (max-width: 818px) {
+    .textWelcome{
+        @apply text-xl text-white;
+    }
+    .textIntro{
+        @apply text-2xl pl-2 text-black;
+    }
+    .xccm{
+        @apply text-5xl uppercase font-extrabold mb-2;
+    }
+}
+@media screen and (max-width: 400px){
+    .textWelcome{
+        @apply text-base text-white;
+        width: 80% !important;
+    }
+}
+
+/* keyframes*/
+
+@-webkit-keyframes UpDown {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+  
+  @keyframes UpDown {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+  
+  @-webkit-keyframes LeftRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-10px); }
+  }
+  
+  @keyframes LeftRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-10px); }
+  }
