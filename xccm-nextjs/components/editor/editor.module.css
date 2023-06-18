@@ -1,8 +1,0 @@
-.editorItemContent:hover > .editorItemOptions,
-.editorItemContent:hover > .editorActionIndicator {
-    visibility: visible;
-}
-
-.titleText:hover + .titleOptions {
-    visibility: visible !important;
-}
