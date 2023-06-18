@@ -7,7 +7,7 @@ import {
 } from '../../components'
 
 function ProjectManager() {
-  const sampleHTML = '<p>Alfred Hetsron Yepnjio</p><ul><li><strong>Sample</strong></li></ul><ol type="1"><li>you</li></ol><ul><li>content</li><li>state</li></ul><p></p>'
+  // const sampleHTML = '<p>Alfred Hetsron Yepnjio</p><ul><li><strong>Sample</strong></li></ul><ol type="1"><li>you</li></ol><ul><li>content</li><li>state</li></ul><p></p>'
   const [htmlEditorContent, setHtmlEditorContent] = useState(null)
   const [newHTMLContent, setNewHTMLContent] = useState(null)
   const [jsonEditorContent, setJsonEditorContent] = useState(null)
@@ -36,7 +36,7 @@ function ProjectManager() {
         setHtmlContent={setHtmlEditorContent}
         setJsonContent={setJsonEditorContent}
         // defaultText=''
-        defaultHTMLString={sampleHTML}
+        // defaultHTMLString=''
       />
       <div className='html-viewer' >
         <span style={{fontWeight:'bold'}}>Editor HTML content:</span>
@@ -47,7 +47,7 @@ function ProjectManager() {
         <span>{`${jsonEditorContent}`}</span>
       </div>
       <div className='html-viewer'>
-        <span style={{fontWeight:'bold'}}>STRING TO HTML content:</span>
+        <span style={{fontWeight:'bold'}}>STRING TO HTML content: "preview.html"</span>
         <div ref={targetHTMLParseRef}></div>
       </div>
     </div>
