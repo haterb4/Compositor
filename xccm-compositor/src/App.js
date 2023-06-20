@@ -2,7 +2,8 @@ import {Routes, Route} from 'react-router-dom'
 import './App.css';
 import {
   LandingPage,
-  ProjectManager
+  ProjectManager,
+  CreationEditor
 } from './pages'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <Routes>
       <Route path='/' element={<LandingPage/>}/>
       <Route path='/project-manager' element={<ProjectManager/>}/>
+      <Route path='/creation' element={<CreationEditor/>}/>
     </Routes>
   );
 }

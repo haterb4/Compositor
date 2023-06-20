@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    @apply h-full overflow-x-hidden
+}
+html{
+    @apply h-full
+}
+#__next{
+    @apply h-full
+}
+
+.public-DraftEditor-content > div h1{
+    @apply text-4xl;
+}

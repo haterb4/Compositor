@@ -1,0 +1,7 @@
+.node-title-input:focus{
+    outline: none
+}
+
+.node-title-input{
+    overflow-wrap: break-word;
+}

@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  image String?
+  email String? @unique
+  emailverified DateTime?
+  hashedPassword String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  sessions Session[]
+  accounts Account[]
+  compositions Composition[]
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  type String
+  provider String
+  providerAccountId String
+  refresh_token String? @db.String
+  access_token String? @db.ObjectId
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String? @db.String
+  session_state String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String @unique
+  userId String @db.ObjectId
+  expires DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Verificationtoken {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token String @unique
+  expires DateTime
+
+  @@unique([identifier, token])
+}
+
+
+model Composition {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  title String
+  content String
+  domain String
+  createdAt DateTime? @default(now())
+  notions Notion[]
+  images String[]
+  viedos String[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notion {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  compositionId String @db.ObjectId
+  title String
+  domain String
+  content String
+  media String[]
+  createdAt DateTime? @default(now())
+
+  composition Composition @relation(fields: [compositionId], references: [id], onDelete: Cascade)
+}
