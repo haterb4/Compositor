@@ -44,8 +44,8 @@ function RichTextEditor(props) {
         <Editor
             editorState={editorState}
             onEditorStateChange={setEditorState}
-            editorClassName="editor-class"
-            toolbarClassName="toolbar-class"
+            editorClassName="bg-white text-black p-4 border border-[#ccc] rounded-lg"
+            toolbarClassName="toolbar-class border border-[#ccc] rounded-lg"
         />
     </div>
   )

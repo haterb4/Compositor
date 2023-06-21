@@ -5,7 +5,7 @@
     bottom: 0;
     right: 0;
     z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.7);
+    /* background-color: rgba(0, 0, 0, 0.7); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,6 +20,7 @@
     flex-direction: column;
     padding: 20px;
     gap: 8px;
+    box-shadow: 0 10px 15px -3px #0000001a,0 4px 6px -4px #0000001a;
 }
 
 .group {
@@ -113,3 +114,14 @@
      background: transparent;
     }
    }
+
+   .html-viewer{
+    margin-top: 10px;
+    display: flex;
+    flex-direction:column;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 8px;
+    color: black;
+}

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './CreationEditor.css'
+import DOMPurify from 'dompurify'
 
 import { faPlus, faSave } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,36 +9,73 @@ import {
     Header,
     NotionFinder,
     ToolBarButton,
-    NodesCard
+    NodesCard,
+    RichTextEditor
 } from '../../components'
-import { useState } from 'react'
 
 function CreationEditor() {
     const [isModalActive, setIsModalActive] = useState(false)
     const [isNodeTitleModalActive, setIsNodeTitleActive] = useState(false)
-
+    const [isNotionEditorActive, setIsNotionEditorActive] = useState(false)
     const [tableOfContents, setTableOfcontents] = useState([
         {
             nodeType: 'DOC',
             nodeTitle: 'Titre de cours',
             nodeLevel: 'Co',
             htmlContent: '',
-            isClicked: false
+            isClicked: false,
+            isEnterPressed: false
         }
     ])
     const [tableOfContentsComponents, setTableOfContentsComponents] = useState([])
     const [selectedNode, setSelectedNode] = useState(null)
+    const [enterPressedNotion, setEnterPressedNotion] = useState(null)
+
+    let defaultHTMLString = ""
+    // const sampleHTML = '<p>Alfred Hetsron Yepnjio</p><ul><li><strong>Sample</strong></li></ul><ol type="1"><li>you</li></ol><ul><li>content</li><li>state</li></ul><p></p>'
+    const [htmlEditorContent, setHtmlEditorContent] = useState(null)
+    const [newHTMLContent, setNewHTMLContent] = useState(null)
+    // const [defaultHTMLString, setDefaultHTMLString] = useState(null)
+    const [jsonEditorContent, setJsonEditorContent] = useState(null)
+
+    const [documentHTML, setDocumentHTML] = useState([])
 
     const [addNodeOptions, setAddNodeOptions] = useState([])
     const [addNodeInfo, setAddNodeInfo] = useState(null)
     const [addNodeTitle, setAddNodeTitle] = useState("")
 
+    const targetHTMLParseRef = useRef(null)
+    const documentHTMLRef = useRef(null)
+
+    const parseStringToHTML = (htmlString) => {
+        const parser = new DOMParser();
+        const parsedHTML = parser.parseFromString(htmlString, 'text/html');
+        return parsedHTML.body;
+    }
+
+    const setEnterPressNotionInTOC = (nodeInfo) => {
+        setEnterPressedNotion(nodeInfo)
+        if(nodeInfo){
+            // setDefaultHTMLString(nodeInfo.htmlContent)
+            defaultHTMLString = nodeInfo.htmlContent
+            let tempTOC = [...tableOfContents]
+            setTableOfcontents([])
+            tempTOC[nodeInfo.index].isClicked = nodeInfo.isClicked
+            tempTOC[nodeInfo.index].isEnterPressed = nodeInfo.isEnterPressed
+            setTableOfcontents(tempTOC)
+
+            /* We Display the Editor if all condiions satisfy*/ 
+            setIsNotionEditorActive(true)
+        }
+    }
+    
     const setSelectedNodeInTOC = (nodeInfo) => {
         setSelectedNode(nodeInfo)
         if(nodeInfo){
             let tempTOC = [...tableOfContents]
             setTableOfcontents([])
             tempTOC[nodeInfo.index].isClicked = nodeInfo.isClicked
+            tempTOC[nodeInfo.index].isEnterPressed = nodeInfo.isEnterPressed
             setTableOfcontents(tempTOC)
         }
     }
@@ -50,6 +88,21 @@ function CreationEditor() {
             tempTOC[nodeInfo.index].nodeTitle = nodeInfo.nodeTitle
             setTableOfcontents(tempTOC)
         }
+    }
+
+    const updateNotionHTMLInTOC = (htmlString) => {
+        // setDefaultHTMLString("")
+        defaultHTMLString = ""
+        console.log(htmlString)
+        let tempTOC = [...tableOfContents]
+        setTableOfcontents([])
+        setTableOfContentsComponents([])
+        tempTOC[enterPressedNotion.index].htmlContent = htmlString
+        tempTOC[enterPressedNotion.index].isClicked = false
+        tempTOC[enterPressedNotion.index].isEnterPressed = false
+        setTableOfcontents(tempTOC)
+        setEnterPressedNotion({...enterPressedNotion, htmlContent:htmlString })
+        setIsNotionEditorActive(false)
     }
     
     const setAddNodeTypes = (selectedNode) => {
@@ -169,6 +222,10 @@ function CreationEditor() {
         setAddNodeOptions([])
         setAddNodeInfo(null)
         setAddNodeTitle("")
+        let tempTOC = [...tableOfContents]
+        setTableOfcontents([])
+        setTableOfContentsComponents([])
+        setTableOfcontents(tempTOC)
     }
 
     const handleAddNewNodeToTOC = (nodeTitle) => {
@@ -183,17 +240,85 @@ function CreationEditor() {
             nodeTitle: nodeTitle,
             nodeLevel: (selectedNode.nodeType !== 'NOTION')? `${selectedNode.nodeLevel}_${addNodeInfo.nodeInitial}`: `${selectedNode.nodeLevel}`,
             htmlContent: '',
-            isClicked: false
+            isClicked: false,
+            isEnterPressed: false
         }
         const newTOC = insertElementAtPosition(tempTOC,newNode,selectedNode.index + 1)
         setTableOfcontents(newTOC)
         /* before the code bellow */
-        handleExitModal()
+        setSelectedNode(null)
+        setIsModalActive(false)
+        setIsNodeTitleActive(false)
+        setAddNodeOptions([])
+        setAddNodeInfo(null)
+        setAddNodeTitle("")
     }
+
+    const composeDocumentHTML = () => {
+        const documentTitleHTML = `<h1 className="w-full text-center">${tableOfContents[0].nodeTitle}</h1>`
+        const documentBodyHTML = tableOfContents.map((node, index) =>{
+            
+            if(node.nodeType !== 'DOC' && index !==0){ // We construct the DOM excluding the 'DOC' Node
+                let partLastIndex = 0
+                let chapterLastIndex = 0
+                let paragraphIndex = 0
+                let notionIndex = 0
+                switch(node.nodeType){
+                    case 'PART':
+                        partLastIndex++
+                        chapterLastIndex = 0
+                        paragraphIndex = 0
+                        notionIndex = 0
+                        return `<h2>Partie ${partLastIndex} - ${node.nodeTitle}</h2>`
+                    case 'CHAPTER':
+                        chapterLastIndex++
+                        paragraphIndex = 0
+                        notionIndex = 0
+                        return `<h3>Chapitre ${chapterLastIndex} - ${node.nodeTitle}</h3>`
+                    case 'PARAGRAPH':
+                        paragraphIndex++
+                        notionIndex = 0
+                        return `<h4>Paragraph ${paragraphIndex} - ${node.nodeTitle}</h4>`
+                    case 'NOTION':
+                        notionIndex++
+                        let notionHTML = (node.nodeTitle !== "")? `<h5>${notionIndex} - ${node.nodeTitle}</h5>` : ""
+                        notionHTML += node.htmlContent
+                        return notionHTML
+                    default:
+                        return ""
+                }
+            }
+        })
+
+        const parsedHTML = parseStringToHTML(`${documentTitleHTML}${documentBodyHTML.join("")}`)
+        setDocumentHTML(parsedHTML.innerHTML)
+        console.log(parsedHTML.innerHTML)
+        documentHTMLRef.current.appendChild(parsedHTML.innerHTM);
+    }
+
+    useEffect(() => {
+        if(newHTMLContent !== htmlEditorContent){
+            setNewHTMLContent(DOMPurify.sanitize(htmlEditorContent))
+            targetHTMLParseRef.current.innerHTML = ''
+            const parsedHTML = parseStringToHTML(`${DOMPurify.sanitize(htmlEditorContent)}`);
+            targetHTMLParseRef.current.appendChild(parsedHTML);
+        }
+    }, [newHTMLContent, htmlEditorContent]);
 
     useEffect(()=>{
         setTableOfContentsComponents(tableOfContents.map((node, index) => 
-                            <NodesCard key={index} index={index} nodeType={node.nodeType} nodeTitle={node.nodeTitle} nodeLevel={node.nodeLevel} isClicked={false} updateNode={updateEditedNodeTitle} setSelectedNode={setSelectedNodeInTOC}/>
+                            <NodesCard
+                                key={index}
+                                index={index}
+                                nodeType={node.nodeType}
+                                nodeTitle={node.nodeTitle}
+                                nodeLevel={node.nodeLevel}
+                                isClicked={false} 
+                                isEnterPressed={false}
+                                updateNode={updateEditedNodeTitle}
+                                setSelectedNode={setSelectedNodeInTOC}
+                                setEnterPressedNotion={setEnterPressNotionInTOC}
+                            />
                         ))
         
     }, [tableOfContents])
@@ -217,7 +342,7 @@ function CreationEditor() {
                     </div>
                 : null}
                 {isModalActive?
-                    <div className='modal-background'>
+                    <div className='modal-background inset-0 bg-black/20 backdrop-blur-sm dark:bg-slate-900/80'>
                         {!isNodeTitleModalActive?
                             <div className='modal-container'>
                                 {/* New Node Select Modal */}
@@ -250,7 +375,7 @@ function CreationEditor() {
                                 </div>
                                 <div className='border-2 border-[#4285F4] rounded-lg h-full flex flex-col justify-evenly items-center'>
                                     <span className='capitalize text-[20px] font-bold'>Add a Title to the Node</span>
-                                    <div className='flex flex-col justify-center items-center gap-[16px] w-full'>
+                                    <div className='flex flex-col justify-center items-center gap-1 w-full'>
                                         <div className="group">
                                             <input required="" type="text" className="input" onChange={(e)=>setAddNodeTitle(e.target.value)} autoFocus/>
                                             <span className="highlight"></span>
@@ -276,12 +401,12 @@ function CreationEditor() {
             <section className='w-full h-full flex flex-col justify-between items-start px-4 pb-1 overflow-hidden'>
                 <div className='h-16 w-full flex justiy-between items-center'>
                     <div className='w-full h-12'>
-                    <h1 className='font-bold text-3xl uppercase'>EDITION DE CONTENUS</h1>
+                        <h1 className='font-bold text-3xl uppercase'>EDITION DE CONTENUS</h1>
                     </div>
-                    <button className='capitalize h-12 w-32 text-xl' style={{backgroundColor:'#4285F4', borderRadius:8, color:'white'}}>Apercu</button>
+                    <button onClick={()=>composeDocumentHTML()} className='capitalize h-12 w-32 text-xl' style={{backgroundColor:'#4285F4', borderRadius:8, color:'white'}}>Apercu</button>
                 </div>
 
-                <div className='m-auto h-full w-full rounded-lg bg-[#E2EBF9] pb-2 relative overflow-hidden'>
+                <div className='m-auto h-full w-full rounded-lg bg-[#E2EBF9] pb-[32px] relative'>
                     {/* the editor zone */}
                     <div className='w-full px-4 flex justify-center items-center h-[50px] bg-white border'>
                         <div className='h-full w-full flex justify-between items-center'>
@@ -289,19 +414,49 @@ function CreationEditor() {
                                 the toolbar below
                                 all text manipulations functions
                             */}
-                            <ToolBarButton icon={faSave} />
+                            {isNotionEditorActive ?
+                                <button onClick={()=>updateNotionHTMLInTOC(DOMPurify.sanitize(htmlEditorContent))}>
+                                    <ToolBarButton icon={faSave} />
+                                </button>
+                            : null}
                         </div>
                     </div>
 
-                    <div className="relative h-full overflow-hidden">
-                        <div className='w-full h-full overflow-hidden flex flex-col relative p-[8px]'>
+                    <div className="relative h-full pb-[64px]">
+                        <div className='w-full h-full flex flex-col relative p-[8px] break-words overflow-auto'>
                             {/*
                                 the textEditor below
                                 the content editable nested components rendering side
                             */}
                             {JSON.stringify(selectedNode)}
                             <br/>
+                            <br/>
                             {JSON.stringify(tableOfContents)}
+                            <br/>
+                            <br/>
+                            {JSON.stringify(enterPressedNotion)}
+                            <br/>
+                            <br/>
+                            {isNotionEditorActive && <>
+                                <RichTextEditor
+                                    setHtmlContent={setHtmlEditorContent}
+                                    setJsonContent={setJsonEditorContent}
+                                    // defaultText=''
+                                    defaultHTMLString={defaultHTMLString}
+                                />
+                                <div className='html-viewer' >
+                                    <span style={{fontWeight:'bold'}}>Editor HTML content:</span>
+                                    <span>{`${DOMPurify.sanitize(htmlEditorContent)}`}</span>
+                                </div>
+                                <div className='html-viewer'>
+                                    <span style={{fontWeight:'bold'}}>STRING TO HTML content: "preview.html"</span>
+                                    <div ref={targetHTMLParseRef} className='px-[16px]'></div>
+                                </div>
+                            </>}
+                            <div className='html-viewer'>
+                                    <span style={{fontWeight:'bold'}}>PREVIEW OF THE DOCUMENT: "{tableOfContents[0].nodeTitle}.html"</span>
+                                    <div ref={documentHTMLRef} className='px-[16px]'></div>
+                            </div>
                         </div>
                     </div>
                 </div>
